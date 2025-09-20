@@ -21,7 +21,11 @@ class TaskForm
                     ->columnSpanFull(),
                 Select::make('status_id')
                     ->label('Status')
-                    ->relationship('status', 'name')
+                    ->relationship(
+                        name: 'status',
+                        titleAttribute: 'name',
+                        modifyQueryUsing: fn($query) => $query->orderBy('sort_order')
+                    )
                     ->required(),
                 Select::make('severity_id')
                     ->label('Severity')
@@ -39,7 +43,9 @@ class TaskForm
                 Select::make('created_by')
                     ->label('Created By')
                     ->relationship('createdBy', 'name')
-                    ->required(),
+                    ->default(fn() => auth()->id())
+                    ->required()
+                    ->reactive(),
                 DatePicker::make('start_date')
                     ->required(),
                 DatePicker::make('due_date')

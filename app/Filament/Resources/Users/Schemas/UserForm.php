@@ -2,10 +2,11 @@
 
 namespace App\Filament\Resources\Users\Schemas;
 
-use Filament\Forms\Components\DateTimePicker;
+use Filament\Schemas\Schema;
+use Spatie\Permission\Models\Role;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Schemas\Schema;
+use Filament\Forms\Components\DateTimePicker;
 
 class UserForm
 {
@@ -20,7 +21,7 @@ class UserForm
                     ->email()
                     ->required(),
                 Select::make('role')
-                    ->options(['admin' => 'Admin', 'developer' => 'Developer'])
+                    ->options(Role::pluck('name', 'name'))
                     ->required(),
                 DateTimePicker::make('email_verified_at'),
                 TextInput::make('password')

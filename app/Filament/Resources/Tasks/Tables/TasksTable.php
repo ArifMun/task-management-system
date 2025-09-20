@@ -2,12 +2,14 @@
 
 namespace App\Filament\Resources\Tasks\Tables;
 
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
+use Filament\Tables\Table;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Resources\Resource;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class TasksTable
 {
@@ -62,5 +64,18 @@ class TasksTable
                     DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $query = static::getModel()::query();
+
+        $user = auth()->user();
+
+        if ($user && $user->hasRole('developer')) {
+            $query->where('developer_id', $user->id);
+            dd(true);
+        }
+        return $query;
     }
 }
