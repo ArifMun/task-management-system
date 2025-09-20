@@ -17,7 +17,9 @@ class SeveritiesTable
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('color')
-                    ->searchable(),
+                    ->searchable()
+                    ->badge()
+                    ->color(fn($record) => $record->color),
                 TextColumn::make('sort_order')
                     ->numeric()
                     ->sortable(),
