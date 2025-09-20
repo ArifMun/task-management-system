@@ -24,12 +24,13 @@ class TasksTable
                 TextColumn::make('severity.name')
                     ->label('Severity')
                     ->sortable()
-                    ->badge(),
+                    ->badge()
+                    ->color(fn($record) => $record->severity?->color),
                 TextColumn::make('developer.name')
                     ->label('Developer')
                     ->sortable(),
-                TextColumn::make('created_by')
-                    ->numeric()
+                TextColumn::make('createdBy.name')
+                    ->label('Created By')
                     ->sortable(),
                 TextColumn::make('start_date')
                     ->date()

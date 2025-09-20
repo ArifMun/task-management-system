@@ -47,8 +47,12 @@ class User extends Authenticatable
         ];
     }
 
-    public function task()
+    public function developer()
     {
-        return $this->hasMany(Task::class);
+        return $this->hasMany(Task::class, 'developer_id');
+    }
+    public function createdBy()
+    {
+        return $this->hasMany(Task::class, 'created_by');
     }
 }

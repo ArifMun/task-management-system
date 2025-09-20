@@ -31,8 +31,14 @@ class Task extends Model
     {
         return $this->belongsTo(Severity::class);
     }
-    public function user()
+
+    public function developer()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'developer_id');
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

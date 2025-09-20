@@ -25,16 +25,21 @@ class TaskForm
                     ->required(),
                 Select::make('severity_id')
                     ->label('Severity')
-                    ->relationship('severity', 'name')
+                    ->relationship(
+                        name: 'severity',
+                        titleAttribute: 'name',
+                        modifyQueryUsing: fn($query) => $query->orderBy('sort_order')
+                    )
                     ->required(),
                 Select::make('developer_id')
                     ->label('Developer')
-                    ->relationship('user', 'name')
+                    ->relationship('developer', 'name')
                     ->required(),
 
-                TextInput::make('created_by')
-                    ->required()
-                    ->numeric(),
+                Select::make('created_by')
+                    ->label('Created By')
+                    ->relationship('createdBy', 'name')
+                    ->required(),
                 DatePicker::make('start_date')
                     ->required(),
                 DatePicker::make('due_date')
