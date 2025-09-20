@@ -14,4 +14,24 @@ class Comment extends Model
         'parent_id',
         'body'
     ];
+
+    public function task()
+    {
+        return $this->belongsTo(Task::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Comment::class, 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Comment::class, 'parent_id');
+    }
 }

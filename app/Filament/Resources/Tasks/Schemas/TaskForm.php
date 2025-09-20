@@ -43,7 +43,7 @@ class TaskForm
                 Select::make('created_by')
                     ->label('Created By')
                     ->relationship('createdBy', 'name')
-                    ->default(fn() => auth()->id())
+                    ->default(fn() => auth()->id()) // otomatis isi dengan user login
                     ->required()
                     ->reactive(),
                 DatePicker::make('start_date')

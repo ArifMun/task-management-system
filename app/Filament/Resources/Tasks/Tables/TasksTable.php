@@ -74,7 +74,6 @@ class TasksTable
 
         if ($user && $user->hasRole('developer')) {
             $query->where('developer_id', $user->id);
-            dd(true);
         }
         return $query;
     }
