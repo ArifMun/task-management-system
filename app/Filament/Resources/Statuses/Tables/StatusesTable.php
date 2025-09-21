@@ -18,6 +18,7 @@ class StatusesTable
             ->defaultSort('sort_order')
             ->columns([
                 TextColumn::make('name')
+                    ->formatStateUsing(fn(string $state): string => str_replace('_', ' ', ucwords($state)))
                     ->searchable(),
                 IconColumn::make('is_active')
                     ->boolean(),
