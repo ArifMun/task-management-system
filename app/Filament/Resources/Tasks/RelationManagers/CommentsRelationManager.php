@@ -4,15 +4,10 @@ namespace App\Filament\Resources\Tasks\RelationManagers;
 
 use Filament\Forms;
 use Filament\Tables;
+use Actions\CreateAction;
+use Filament\Tables\Table;
 use Filament\Schemas\Schema;
-use Tables\Actions\EditAction;
-use Tables\Actions\CreateAction;
-use Tables\Actions\DeleteAction;
-use Tables\Actions\DeleteBulkAction;
-use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\TextColumn;
+use Filament\Actions;
 use Filament\Resources\RelationManagers\RelationManager;
 
 class CommentsRelationManager extends RelationManager
@@ -23,17 +18,8 @@ class CommentsRelationManager extends RelationManager
     public function form(Schema $schema): Schema
     {
         return $schema->components([
-            \Filament\Forms\Components\Textarea::make('comment')
+            \Filament\Forms\Components\Textarea::make('body')
                 ->label('Comment')
-                ->required(),
-            \Filament\Forms\Components\Select::make('status')
-                ->label('Status')
-                ->options([
-                    'pending' => 'Pending',
-                    'resolved' => 'Resolved',
-                    'review' => 'Review',
-                ])
-                ->default('pending')
                 ->required(),
             \Filament\Forms\Components\Select::make('parent_id')
                 ->label('Reply to')
@@ -44,17 +30,20 @@ class CommentsRelationManager extends RelationManager
         ]);
     }
 
-    public function table(\Filament\Tables\Table $table): \Filament\Tables\Table
+    public function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')->label('User'),
-                Tables\Columns\TextColumn::make('comment'),
-                Tables\Columns\TextColumn::make('status')->badge(),
+                Tables\Columns\TextColumn::make('user.name')->label('Name'),
+                Tables\Columns\TextColumn::make('Message'),
                 Tables\Columns\TextColumn::make('created_at')->dateTime(),
             ])
             ->headerActions([
-                \Filament\Actions\CreateAction::make()
+                Actions\CreateAction::make()
+                    ->mutateFormDataUsing(function (array $data): array {
+                        $data['user_id'] = auth()->id(); // otomatis isi user
+                        return $data;
+                    }),
             ])
             ->filters([
                 //

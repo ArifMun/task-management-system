@@ -2,19 +2,19 @@
 
 namespace App\Filament\Resources\Tasks;
 
-use App\Filament\Resources\Tasks\Pages\CreateTask;
-use App\Filament\Resources\Tasks\Pages\EditTask;
-use App\Filament\Resources\Tasks\Pages\ListTasks;
-use App\Filament\Resources\Tasks\Pages\ViewTask;
-use App\Filament\Resources\Tasks\Schemas\TaskForm;
-use App\Filament\Resources\Tasks\Schemas\TaskInfolist;
-use App\Filament\Resources\Tasks\Tables\TasksTable;
-use App\Models\Task;
 use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
+use App\Models\Task;
 use Filament\Tables\Table;
+use Filament\Schemas\Schema;
+use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
+use App\Filament\Resources\Tasks\Pages\EditTask;
+use App\Filament\Resources\Tasks\Pages\ViewTask;
+use App\Filament\Resources\Tasks\Pages\ListTasks;
+use App\Filament\Resources\Tasks\Pages\CreateTask;
+use App\Filament\Resources\Tasks\Schemas\TaskForm;
+use App\Filament\Resources\Tasks\Tables\TasksTable;
+use App\Filament\Resources\Tasks\Schemas\TaskInfolist;
 
 class TaskResource extends Resource
 {

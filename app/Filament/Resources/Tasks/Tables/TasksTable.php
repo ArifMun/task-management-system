@@ -22,7 +22,8 @@ class TasksTable
                 TextColumn::make('status.name')
                     ->label('Status')
                     ->sortable()
-                    ->badge(),
+                    ->badge()
+                    ->formatStateUsing(fn(string $state): string => str_replace('_', ' ', ucwords($state))),
                 TextColumn::make('severity.name')
                     ->label('Severity')
                     ->sortable()
@@ -64,17 +65,5 @@ class TasksTable
                     DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getEloquentQuery(): Builder
-    {
-        $query = static::getModel()::query();
-
-        $user = auth()->user();
-
-        if ($user && $user->hasRole('developer')) {
-            $query->where('developer_id', $user->id);
-        }
-        return $query;
     }
 }

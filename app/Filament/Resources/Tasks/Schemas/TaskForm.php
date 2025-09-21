@@ -26,6 +26,7 @@ class TaskForm
                         titleAttribute: 'name',
                         modifyQueryUsing: fn($query) => $query->orderBy('sort_order')
                     )
+                    ->formatStateUsing(fn(string $state): string => str_replace('_', ' ', ucwords($state)))->getOptionLabelFromRecordUsing(fn($record) => str_replace('_', ' ', ucwords($record->name)))
                     ->required(),
                 Select::make('severity_id')
                     ->label('Severity')

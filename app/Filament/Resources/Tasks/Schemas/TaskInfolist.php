@@ -14,14 +14,17 @@ class TaskInfolist
                 TextEntry::make('title'),
                 TextEntry::make('description')
                     ->columnSpanFull(),
-                TextEntry::make('status_id')
-                    ->numeric(),
-                TextEntry::make('severity_id')
-                    ->numeric(),
-                TextEntry::make('developer_id')
-                    ->numeric(),
-                TextEntry::make('created_by')
-                    ->numeric(),
+                TextEntry::make('status.name')
+                    ->label('Status')
+                    ->formatStateUsing(fn(string $state): string => str_replace('_', ' ', ucwords($state))),
+                TextEntry::make('severity.name')
+                    ->label('Severity')
+                    ->badge()
+                    ->color(fn($record) => $record->severity?->color),
+                TextEntry::make('developer.name')
+                    ->label('Developer Name'),
+                TextEntry::make('createdBy.name')
+                    ->label('Created By'),
                 TextEntry::make('start_date')
                     ->date(),
                 TextEntry::make('due_date')
