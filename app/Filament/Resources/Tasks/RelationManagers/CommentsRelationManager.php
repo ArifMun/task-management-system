@@ -2,31 +2,24 @@
 
 namespace App\Filament\Resources\Tasks\RelationManagers;
 
-use Filament\Forms;
 use Filament\Tables;
-use Actions\CreateAction;
+use Filament\Actions;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Schemas\Schema;
-use Filament\Actions;
+use Filament\Forms\Components\Textarea;
 use Filament\Resources\RelationManagers\RelationManager;
 
 class CommentsRelationManager extends RelationManager
 {
     protected static string $relationship = 'comments';
-    protected static ?string $recordTitleAttribute = 'comment';
+    protected static ?string $recordTitleAttribute = 'body';
 
     public function form(Schema $schema): Schema
     {
         return $schema->components([
-            \Filament\Forms\Components\Textarea::make('body')
-                ->label('Comment')
-                ->required(),
-            \Filament\Forms\Components\Select::make('parent_id')
-                ->label('Reply to')
-                ->options(fn($get, $record) => $record?->task?->comments?->pluck('comment', 'id') ?? [])
-                ->nullable(),
-            \Filament\Forms\Components\Hidden::make('user_id')
-                ->default(fn() => auth()->id()),
+            Textarea::make('body')
+                ->label('Comment'),
         ]);
     }
 
@@ -35,18 +28,23 @@ class CommentsRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')->label('Name'),
-                Tables\Columns\TextColumn::make('Message'),
+                Tables\Columns\TextColumn::make('body')->label('Message'),
                 Tables\Columns\TextColumn::make('created_at')->dateTime(),
             ])
             ->headerActions([
                 Actions\CreateAction::make()
                     ->mutateFormDataUsing(function (array $data): array {
-                        $data['user_id'] = auth()->id(); // otomatis isi user
+                        $data['user_id'] = auth()->id();
                         return $data;
                     }),
             ])
             ->filters([
                 //
             ]);
+    }
+
+    public function isReadOnly(): bool
+    {
+        return false;
     }
 }
