@@ -32,8 +32,16 @@ class TaskForm
                             : ''
                     )
                     ->getOptionLabelFromRecordUsing(fn($record) => str_replace('_', ' ', ucwords($record->name)))
+                    ->required()
+                    ->afterStateUpdated(function ($state, callable $set) {
+                        $statusName = \App\Models\Status::find($state)?->id;
 
-                    ->required(),
+                        if ($statusName === 3) {
+                            $set('finish_date', now());
+                        } else {
+                            $set('finish_date', null);
+                        }
+                    }),
                 Select::make('severity_id')
                     ->label('Severity')
                     ->relationship(
@@ -66,7 +74,7 @@ class TaskForm
                     ->required()
                     ->visible(fn() => auth()->user()->role !== 'developer'),
 
-                DatePicker::make('finish_date')->visible(fn() => auth()->user()->role !== 'developer'),
+                DatePicker::make('finish_date'),
             ]);
     }
 }
