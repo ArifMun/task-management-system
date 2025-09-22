@@ -61,6 +61,15 @@ class CommentsRelationManager extends RelationManager
                     ->formatStateUsing(function ($state, $record) {
                         return $this->renderCreatedTree($record);
                     }),
+            ])->headerActions([
+                Actions\CreateAction::make()
+                    ->label('New Comment')
+                    ->mutateFormDataUsing(function (array $data): array {
+                        $data['user_id'] = auth()->id();
+                        $data['task_id'] = $this->getOwnerRecord()->id;
+                        $data['parent_id'] = null;
+                        return $data;
+                    }),
             ])
             ->recordActions([
                 Action::make('reply')
@@ -81,7 +90,6 @@ class CommentsRelationManager extends RelationManager
             ]);
     }
 
-    // header action untuk membuat comment baru (bisa dipakai juga untuk reply via UI lain)
     protected function getHeaderActions(): array
     {
         return [
@@ -101,8 +109,8 @@ class CommentsRelationManager extends RelationManager
     public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
     {
         return parent::getEloquentQuery()
-            ->with(['user', 'replies.user', 'replies.replies']) // load parent + children
-            ->whereNull('parent_id') // HANYA parent
+            ->with(['user', 'replies.user', 'replies.replies'])
+            ->whereNull('parent_id')
             ->orderBy('created_at');
     }
     protected function renderCommentTree($comment, $depth = 0): string

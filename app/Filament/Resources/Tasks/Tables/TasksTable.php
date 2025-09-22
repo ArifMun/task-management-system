@@ -9,6 +9,7 @@ use Filament\Resources\Resource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 
 class TasksTable
@@ -54,7 +55,22 @@ class TasksTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('severity_id')
+                    ->label('Severity')
+                    ->relationship('severity', 'name')
+                    ->searchable()
+                    ->preload(),
+
+                SelectFilter::make('status_id')
+                    ->label('Status')
+                    ->relationship('status', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->getOptionLabelUsing(function ($value) {
+                        if (!$value) return '';
+                        $status = \App\Models\Status::find($value);
+                        return $status ? str_replace('_', ' ', ucwords($status->name)) : '';
+                    })
             ])
             ->recordActions([
                 ViewAction::make(),
