@@ -41,23 +41,32 @@ class TaskForm
                         titleAttribute: 'name',
                         modifyQueryUsing: fn($query) => $query->orderBy('sort_order')
                     )
-                    ->required(),
+                    ->required()
+                    ->visible(fn() => auth()->user()->role !== 'developer'),
+
                 Select::make('developer_id')
                     ->label('Developer')
                     ->relationship('developer', 'name')
-                    ->required(),
+                    ->required()
+                    ->visible(fn() => auth()->user()->role !== 'developer'),
+
 
                 Select::make('created_by')
                     ->label('Created By')
                     ->relationship('createdBy', 'name')
-                    ->default(fn() => auth()->id()) // otomatis isi dengan user login
+                    ->default(fn() => auth()->id())
                     ->required()
-                    ->reactive(),
+                    ->reactive()
+                    ->visible(fn() => auth()->user()->role !== 'developer'),
                 DatePicker::make('start_date')
-                    ->required(),
+                    ->required()
+                    ->visible(fn() => auth()->user()->role !== 'developer'),
+
                 DatePicker::make('due_date')
-                    ->required(),
-                DatePicker::make('finish_date'),
+                    ->required()
+                    ->visible(fn() => auth()->user()->role !== 'developer'),
+
+                DatePicker::make('finish_date')->visible(fn() => auth()->user()->role !== 'developer'),
             ]);
     }
 }
