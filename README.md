@@ -30,8 +30,9 @@ Sebuah aplikasi manajemen tugas berbasis **Laravel + Filament**, dengan dukungan
    git clone https://github.com/ArifMun/task-management-system.git
    cd task-management-system
 2. composer update
-3. cp .env.example .env
-4. sesuaikan di
+3. buat database dengan nama task_management
+4. cp .env.example .env
+5. sesuaikan di
 
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
