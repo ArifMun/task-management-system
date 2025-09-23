@@ -43,13 +43,14 @@ DB_PASSWORD=[password local]
 
 5. lalu tambahkan di .env
 6. php artisan key:generate
-7. php artisan shield:generate --all
-8. php artisan db:seed
-9. php artisan serve untuk menjalankan laravelnya
-10. ketikan url berikut pada browser : http://127.0.0.1:8000/task-management-system/
-11. lalu login menggunakan akun di bawah ini
+7. php artisan migrate
+8. php artisan shield:generate --all
+9. php artisan db:seed
+10. php artisan serve untuk menjalankan laravelnya
+11. ketikan url berikut pada browser : http://127.0.0.1:8000/task-management-system/
+12. lalu login menggunakan akun di bawah ini
 Login dengan akun berikut:
 Username: admin@example.com
 Password: password
 
-12. Lakukan seting terlebih dahulu pada menu roles untuk menentukan siapa saja dan membutuhkan menu apa saja
+13. Lakukan seting terlebih dahulu pada menu roles untuk menentukan siapa saja dan membutuhkan menu apa saja
